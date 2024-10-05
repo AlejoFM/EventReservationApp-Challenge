@@ -55,7 +55,7 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => bcrypt($request->password),
         ]);
-        return (new JsonSuccesfulBodyResponse($user, 201))->send();
+        return response()->json(["user" => $user], 201)->send();
     }
 
     /**
@@ -90,7 +90,7 @@ class AuthController extends Controller
         $user = User::where('email', $request->email)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
-            return (new JsonErrorResponse("Wrong credentials", 401))->send();
+            return (new JsonErrorResponse("Wrong credentials", 400))->send();
         }
         try {
             

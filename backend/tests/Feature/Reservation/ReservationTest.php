@@ -1,4 +1,5 @@
 <?php
+namespace Tests\Feature\Reservation;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Log;
@@ -15,14 +16,15 @@ class ReservationTest extends TestCase
             $user = \App\Models\User::factory()->create();
             $token = JWTAuth::fromUser($user);
             
-            
             $eventSpace = \App\Models\EventSpace::factory()->create();
 
             $response = $this->postJson('/api/reservations', [
+                'user_id' => $user->id,
                 'event_space_id' => $eventSpace->id,
                 'event_name' => 'Team Meeting',
                 'start_time' => '2024-10-01 10:00:00',
                 'end_time' => '2024-10-01 12:00:00',
+                'status' => 'CONFIRMED'
             ], [
                 'Authorization' => 'Bearer ' . $token, 
             ]);
@@ -47,14 +49,17 @@ class ReservationTest extends TestCase
             'event_name' => 'Team Meeting',
             'start_time' => '2024-10-01 10:00:00',
             'end_time' => '2024-10-01 12:00:00',
+            'status' => 'CONFIRMED'
         ]);
 
         // Intentar crear una reserva en el mismo horario
         $response = $this->postJson('/api/reservations', [
+            'user_id' => $user->id,
             'event_space_id' => $eventSpace->id,
-            'event_name' => 'Another Event',
-            'start_time' => '2024-10-01 11:00:00',
-            'end_time' => '2024-10-01 13:00:00',
+            'event_name' => 'Team Meeting',
+            'start_time' => '2024-10-01 10:00:00',
+            'end_time' => '2024-10-01 12:00:00',
+            'status' => 'CONFIRMED'
         ], [
             'Authorization' => 'Bearer ' . $token,
         ]);

@@ -2,10 +2,15 @@
 
 namespace App\Http\Services;
 
+use App\Exceptions\ResponseValidationException;
 use App\Http\Response\JsonErrorResponse;
 use App\Models\Reservation;
 use Dotenv\Exception\ValidationException;
+use Illuminate\Http\Exceptions\HttpResponseException;
+
 use Exception;
+use DB;
+
 
 class ReservationService{
     public function index(){
@@ -28,27 +33,37 @@ class ReservationService{
         }
     }
     public function store($validatedData){
-        $overlappingReservation = Reservation::where('event_space_id', $validatedData->event_space_id)
+        try{
+            $overlappingReservation = Reservation::where('event_space_id', $validatedData['event_space_id'])
             ->where(function ($query) use ($validatedData) {
-                $query->whereBetween('start_time', [$validatedData->start_time, $validatedData->end_time])
-                      ->orWhereBetween('end_time', [$validatedData->start_time, $validatedData->end_time])
+                $query->whereBetween('start_time', [$validatedData['start_time'], $validatedData['end_time']])
+                      ->orWhereBetween('end_time', [$validatedData['start_time'], $validatedData['end_time']])
                       ->orWhere(function ($query) use ($validatedData) {
-                          $query->where('start_time', '<=', $validatedData->start_time)
-                                ->where('end_time', '>=', $validatedData->end_time);
+                          $query->where('start_time', '<=', $validatedData['start_time'])
+                                ->where('end_time', '>=', $validatedData['end_time']);
                       });
             })
             ->exists();
 
         if ($overlappingReservation) {
-            throw new ValidationException ('This time slot is already booked.', 409);
+            throw new ResponseValidationException('This time slot is already booked.', 409);
         }
+        DB::beginTransaction();
             Reservation::create([
-                'event_space_id' => $validatedData->event_space_id,
-                'event_name' => $validatedData->event_name,
-                'start_time' => $validatedData->start_time,
-                'end_time' => $validatedData->end_time,
-                'user_id' => auth()->id(), 
+                'event_space_id' => $validatedData['event_space_id'],
+                'event_name' => $validatedData['event_name'],
+                'start_time' => $validatedData['start_time'],
+                'end_time' => $validatedData['end_time'],
+                'status' => $validatedData['status'],
+                'user_id' => auth()->id(),
             ]);
+
+        DB::commit();
+        
+        }catch(Exception $e){ 
+            DB::rollBack();
+            throw $e;
+        }
     }
     public function show($id){
         try{

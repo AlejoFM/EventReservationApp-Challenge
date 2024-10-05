@@ -1,5 +1,5 @@
 <?php
-
+namespace Tests\Feature\Auth;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -14,12 +14,14 @@ class AuthTest extends TestCase
         $user = \App\Models\User::factory()->create([
             'email' => 'alejito@example.com',
             'password' => bcrypt('password123'),
+            'role' => 'admin'
         ]);
 
         // Intentar iniciar sesión
         $response = $this->postJson('/api/login', [
             'email' => 'alejito@example.com',
             'password' => 'password123',
+            'role' => 'admin'
         ]);
 
         $response->assertStatus(200);
@@ -32,7 +34,6 @@ class AuthTest extends TestCase
              'name' => 'John Doe',
              'email' => 'john@example.com',
              'password' => 'password123',
-             'password_confirmation' => 'password123'
          ]);
  
          $response->assertStatus(201);

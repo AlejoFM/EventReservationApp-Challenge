@@ -52,8 +52,6 @@ class EventSpaceService {
         try{
         $eventSpace = EventSpace::findOrFail($id);
         $eventSpace->update($data);
-
-        return $eventSpace;
         }catch(Exception $e){
             throw $e;
         }

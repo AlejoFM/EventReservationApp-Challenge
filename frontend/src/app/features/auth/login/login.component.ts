@@ -62,7 +62,7 @@ export class LoginComponent {
             duration: 2000,
           });
 
-          this.router.navigate(['/event-spaces']);
+          this.router.navigate(['event-spaces']);
         },
         (error) => {
           console.error('Error al iniciar sesión', error);

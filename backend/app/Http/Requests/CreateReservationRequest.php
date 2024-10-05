@@ -11,7 +11,7 @@ class CreateReservationRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,24 +24,25 @@ class CreateReservationRequest extends FormRequest
         return [
             'event_space_id' => 'required|exists:event_spaces,id',
             'event_name' => 'required|string|max:255',
-            'start_time' => 'required|date',
-            'end_time' => 'required|date|after:start_time',
+            'start_time' => 'required|date_format:Y-m-d H:i:s',
+            'end_time' => 'required|date_format:Y-m-d H:i:s|after:start_time',
+            'status' => 'required|string|in:CONFIRMED,CANCELLED,PENDING',
         ];
     }
-
     public function messages()
     {
         return [
-            'event_space_id.required' => 'The event space field is required.',
+            'event_space_id.required' => 'The event space is required.',
             'event_space_id.exists' => 'The selected event space does not exist.',
             'event_name.required' => 'The event name is required.',
-            'event_name.string' => 'The event name must be a string.',
-            'event_name.max' => 'The event name cannot exceed 255 characters.',
             'start_time.required' => 'The start time is required.',
-            'start_time.date' => 'The start time must be a valid date.',
+            'start_time.date_format' => 'The start time must be a valid date and format as Y-m-d H:i:s.',
             'end_time.required' => 'The end time is required.',
-            'end_time.date' => 'The end time must be a valid date.',
+            'end_time.date_format' => 'The end time must be a valid date and format as Y-m-d H:i:s.',
             'end_time.after' => 'The end time must be after the start time.',
+            'status.required' => 'The status is required.',
+            'status.in' => 'The selected status is invalid. It should be CONFIRMED,CANCELLED or PENDING.',
         ];
     }
+    
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\ResponseValidationException;
 use App\Http\Requests\CreateReservationRequest;
 use App\Http\Requests\UpdateReservationRequest;
 use App\Http\Response\JsonErrorResponse;
@@ -69,9 +70,12 @@ class ReservationController extends Controller
     {
         try{
         $this->reservationService->store($request->validated());
-        
         return (new JsonSuccesfulResponse('Reservation booked succesfully.', 201))->send();
-        }catch(Exception $e){
+        }
+        catch(ResponseValidationException $e){
+            return (new JsonErrorResponse($e->getMessage(), $e->getCode()))->send();
+        }
+        catch(Exception $e){
             Log::channel('reservations')->info($e->getMessage(). "\n" . $e->getLine() . "\n" . $e->getFile());
             return (new JsonErrorResponse("Something gone wrong with reservations.", 500))->send();
         }

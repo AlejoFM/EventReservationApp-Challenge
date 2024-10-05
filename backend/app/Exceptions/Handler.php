@@ -50,6 +50,12 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $e)
     {
         if ($request->is('api/*')) {
+            if ($e instanceof ResponseValidationException){
+                return response()->json([
+                    'status' => "error",
+                    'mensaje_error' => $e->getMessage()
+                ], 400);
+            }
             if($e instanceof TokenException){
                 return parent::render($request, $e);
             }
@@ -62,7 +68,9 @@ class Handler extends ExceptionHandler
     public function report(Exception|Throwable $exception)
     {
         if (
-            !($exception instanceof \Symfony\Component\HttpKernel\Exception\HttpException) && !($exception instanceof TokenException)
+            !($exception instanceof \Symfony\Component\HttpKernel\Exception\HttpException) 
+            && !($exception instanceof TokenException)
+            && !($exception instanceof ResponseValidationException)
         ) {
             parent::report($exception);
         }

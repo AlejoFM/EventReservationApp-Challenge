@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class EventSpace extends Model
 {
     use HasFactory;
+    protected $primary_key = ['id'];
     protected $fillable = ['name','location', 'description', 'capacity', 'type', 'status'];
     protected $table = 'event_spaces';
     public function reservations()

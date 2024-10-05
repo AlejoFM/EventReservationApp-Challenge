@@ -24,6 +24,10 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Copia los archivos de la aplicación
 COPY . /var/www
 
+COPY .env.example /var/www/.env 
+
+COPY .env.example /var/www/.env.testing 
+
 # Configuración de Apache
 COPY ./docker/000-default.conf /etc/apache2/sites-available/000-default.conf
 
@@ -33,19 +37,11 @@ RUN composer install --no-scripts --no-autoloader \
     && composer dump-autoload \
     && chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache 
 
-RUN chown -R www-data:www-data /var/www/bootstrap/cache && \
-    chmod -R 775 /var/www/bootstrap/cache
 
-RUN php artisan key:generate
-
-RUN php artisan jwt:secret
-
-RUN php artisan migrate --seed
+RUN sed -i 's/DB_DATABASE=.*/DB_DATABASE=EventReservationApp_local/g' /var/www/.env.testing
 
 RUN php artisan l5-swagger:generate
 
-RUN cp /var/www/.env /var/www/.env.testing && \
-    sed -i 's/DB_DATABASE=.*/DB_DATABASE=EventReservationApp_local/g' /var/www/.env.testing && \
 
     
 EXPOSE 80

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\EventSpace;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -66,9 +66,9 @@ class EventSpaceTest extends TestCase
         $token = JWTAuth::fromUser($user);
 
         $space = EventSpace::factory()->create();
-
         $updatedData = [
             'name' => 'Auditorio Actualizado',
+            'location' => 'Luján',
             'capacity' => 200,
             'type' => 'Auditorio'
         ];

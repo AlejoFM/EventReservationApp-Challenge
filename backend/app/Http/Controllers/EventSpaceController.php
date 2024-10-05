@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateEventSpaceRequest;
 use App\Http\Requests\EventSpaceFilterRequest;
+use App\Http\Requests\UpdateEventSpaceRequest;
 use App\Http\Response\JsonErrorResponse;
 use App\Http\Response\JsonSuccesfulBodyResponse;
 use App\Http\Response\JsonSuccesfulPaginatedBodyResponse;
@@ -168,12 +169,12 @@ class EventSpaceController extends Controller
     *     }
      * )
      */
-    public function update(Request $request, $id)
+    public function update(UpdateEventSpaceRequest $request, $id)
     {
         try{
-        $eventSpace = $this->eventSpaceService->updateEventSpace($id, $request->validated());
-        $eventSpace->update($request->all());
-        return (new JsonSuccesfulBodyResponse("Event Space updated succesfully.", 200))->send();
+            $validatedData = $request->validated();
+        $this->eventSpaceService->updateEventSpace($id, $validatedData);
+            return (new JsonSuccesfulBodyResponse("Event Space updated succesfully.", 200))->send();
         }catch (ModelNotFoundException $e) {
             return (new JsonErrorResponse("Event space not found.", 404))->send(); 
         } catch (Exception $e) {
