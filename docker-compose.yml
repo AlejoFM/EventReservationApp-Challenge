@@ -1,0 +1,59 @@
+
+services:
+  webserver:
+    build: ./backend/
+    ports:
+      - 80:80
+    environment:
+      MYSQL_DB_CONNECTION: test
+      MYSQL_DB_NAME: test
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+      SITE_URL: http://localhost
+    networks:
+      - local
+    depends_on:
+      - db
+      - db_test 
+  frontend:
+    build:
+      context: ./frontend/
+      dockerfile: Dockerfile 
+    ports:
+      - 4200:4200
+    expose:
+      - 4200
+    depends_on:
+      - webserver
+    volumes:
+      - ../../EventReservationApp/frontend:/usr/src/frontend
+    networks:
+      - local
+
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: EventReservationApp_local
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+    ports:
+      - "3306:3306"
+    networks:
+      - local
+
+  db_test:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: EventReservationApp_test 
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+    ports:
+      - "3307:3306" 
+    networks:
+      - local
+
+networks:
+  local:
+    driver: bridge

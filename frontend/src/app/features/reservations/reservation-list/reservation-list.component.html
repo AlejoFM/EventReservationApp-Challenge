@@ -1,0 +1,47 @@
+<h2 style="display: flex; justify-content: center; align-items: center;margin-top: 1rem;">Lista de Reservaciones</h2>
+<app-calendar></app-calendar>
+
+@defer (when !isLoading) {
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+    <!-- Nombre Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Nombre </th>
+      <td mat-cell *matCellDef="let reservation"> {{ reservation.event_name }} </td>
+    </ng-container>
+
+    <!-- Fecha de Reservación Column -->
+    <ng-container matColumnDef="reservation_date">
+      <th mat-header-cell *matHeaderCellDef> Fecha </th>
+      <td mat-cell *matCellDef="let reservation"> {{ reservation.start_time | date: 'dd/MM/yyyy HH:mm:ss' }} </td>
+    </ng-container>
+
+    <!-- Duración Column -->
+    <ng-container matColumnDef="duration">
+      <th mat-header-cell *matHeaderCellDef> Duración </th>
+      <td mat-cell *matCellDef="let reservation"> {{ reservation.duration }} horas </td>
+    </ng-container>
+
+    <!-- Estado Column -->
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef> Estado </th>
+      <td mat-cell *matCellDef="let reservation"> {{ reservation.status | uppercase }} </td>
+    </ng-container>
+
+    <!-- Acciones Column -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef> Acciones </th>
+      <td mat-cell *matCellDef="let reservation">
+        <button mat-button (click)="onEdit(reservation)">Editar</button>
+        <button mat-button color="warn" (click)="deleteReservation(reservation.id)">Eliminar</button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+}
+
+@if (isLoading) {
+  <ngx-skeleton-loader count="5" appearance="line"></ngx-skeleton-loader>
+}

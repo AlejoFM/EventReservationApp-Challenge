@@ -1,0 +1,24 @@
+<mat-card class="event-space-details-card">
+    @defer (when !isLoading) {
+    <mat-card-header>
+        <mat-card-title>{{ eventSpace.name }}</mat-card-title>
+        <mat-card-subtitle>Detalles del Espacio de Evento</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <p><strong>Descripción:</strong> {{ eventSpace.description }}</p>
+      <p><strong>Tipo:</strong> {{ eventSpace.type }}</p>
+      <p><strong>Capacidad:</strong> {{ eventSpace.capacity }}</p>
+      <p><strong>Ubicación:</strong> {{ eventSpace.location }}</p>
+    </mat-card-content>
+    @if (isAdmin) {
+        <mat-card-actions >
+            <button mat-raised-button color="primary" (click)="editEventSpace()">Editar</button>
+            <button mat-raised-button color="warn" (click)="deleteEventSpace()">Eliminar</button>
+        </mat-card-actions>
+        }
+    } @if (isLoading) {
+        <ngx-skeleton-loader  count="7" appearance="line" />
+      }
+    <button mat-flat-button (click)="goBack()">Volver a la lista</button>
+</mat-card>

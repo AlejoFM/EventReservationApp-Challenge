@@ -1,0 +1,15 @@
+/* Fechas reservadas en rojo */
+.reserved-date .mat-calendar-body-cell-content {
+    background-color: #f44336;
+    color: white;
+  }
+  
+  .mat-form-field {
+    width: 100%;
+  }
+  /* calendar.component.css */
+.reserved-date {
+    background-color: red !important; /* Cambia el color de fondo a rojo */
+    color: white !important; /* Cambia el color del texto a blanco */
+  }
+  

@@ -1,0 +1,38 @@
+<h2>{{ reservation ? 'Actualizar Reserva' : 'Crear Reserva' }}</h2>
+
+<form [formGroup]="reservationForm" (ngSubmit)="createOrUpdateReservation()">
+  <mat-form-field appearance="fill">
+    <mat-label>Nombre del Evento</mat-label>
+    <input matInput formControlName="event_name">
+    <mat-error *ngIf="reservationForm.get('event_name')?.hasError('required')">
+      Este campo es requerido.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Fecha de Inicio</mat-label>
+    <input matInput [matDatepicker]="startPicker" formControlName="start_time">
+    <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+    <mat-datepicker #startPicker></mat-datepicker>
+    <mat-error *ngIf="reservationForm.get('start_time')?.hasError('required')">
+      Este campo es requerido.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Fecha de Fin</mat-label>
+    <input matInput [matDatepicker]="endPicker" formControlName="end_time">
+    <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+    <mat-datepicker #endPicker></mat-datepicker>
+    <mat-error *ngIf="reservationForm.get('end_time')?.hasError('required')">
+      Este campo es requerido.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Estado</mat-label>
+    <input matInput formControlName="status">
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit">Guardar Reservación</button>
+</form>

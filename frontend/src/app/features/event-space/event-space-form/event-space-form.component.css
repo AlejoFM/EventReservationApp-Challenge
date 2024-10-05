@@ -1,0 +1,13 @@
+div > .mat-mdc-dialog-surface,
+div > .mdc-dialog__surface {
+    padding: 1.5rem; 
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center !important;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+}

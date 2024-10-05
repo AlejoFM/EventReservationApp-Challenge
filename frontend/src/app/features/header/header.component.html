@@ -1,0 +1,17 @@
+<mat-toolbar color="primary">
+    <span>Reservas de Espacios</span>
+    
+    <span class="spacer"></span>
+    
+    <nav style="display: flex; width: 50%;
+    justify-content: space-around;">
+      <button mat-flat-button  routerLink="/event-spaces" routerLinkActive="active-link">Espacios</button >
+      <button mat-flat-button  routerLink="/reservations" routerLinkActive="active-link">Mis Reservas</button >
+        
+      @if(!isLoggedIn) {
+        <button mat-flat-button  routerLink="/login" routerLinkActive="active-link">Iniciar Sesión</button >
+      }
+      <button mat-flat-button  routerLink="/logout" routerLinkActive="active-link">Cerrar Sesión</button >
+    </nav>
+  </mat-toolbar>
+  

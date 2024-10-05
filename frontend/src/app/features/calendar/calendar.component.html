@@ -1,0 +1,6 @@
+<mat-form-field appearance="fill">
+  <mat-label>Selecciona una fecha</mat-label>
+  <input matInput [matDatepicker]="picker" [formControl]="dateControl" (dateChange)="onDateChange($event)">
+  <mat-datepicker #picker [touchUi]="true"></mat-datepicker>
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+</mat-form-field>

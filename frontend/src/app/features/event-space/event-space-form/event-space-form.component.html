@@ -1,0 +1,52 @@
+<div style="padding: 2rem; flex-direction: column; display: flex; justify-content: center; align-items: center;">
+<h2 mat-dialog-title>{{ isEditMode ? 'Editar Espacio de Evento' : 'Crear Nuevo Espacio de Evento' }}</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="eventSpaceForm">
+    <mat-form-field appearance="fill">
+      <mat-label>Nombre</mat-label>
+      <input matInput formControlName="name" placeholder="Nombre del espacio" />
+      @if (eventSpaceForm.get('name')?.hasError('required')) {
+      <mat-error >Este campo es obligatorio.</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Tipo</mat-label>
+        <mat-select formControlName="type" placeholder="Tipo de espacio">
+            <mat-option *ngFor="let type of eventSpaceTypes" [value]="type">
+                {{ type }}
+              </mat-option>
+            </mat-select>
+        <mat-error *ngIf="eventSpaceForm.get('type')?.hasError('required')">
+          Este campo es obligatorio.
+        </mat-error>
+      </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Capacidad</mat-label>
+      <input matInput formControlName="capacity" placeholder="Capacidad" />
+      @if (eventSpaceForm.get('capacity')?.hasError('required')) {
+          <mat-error >Este campo es obligatorio.</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Ubicación</mat-label>
+      <input matInput formControlName="location" placeholder="Ubicación" />
+      @if (eventSpaceForm.get('location')?.hasError('required')) {
+          <mat-error >Este campo es obligatorio.</mat-error>
+      }
+    </mat-form-field>
+
+
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button (click)="closeDialog()">Cancelar</button>
+  <button mat-button color="primary" [disabled]="eventSpaceForm.invalid" (click)="saveEventSpace()">
+    {{ isEditMode ? 'Actualizar' : 'Crear' }}
+  </button>
+</mat-dialog-actions>
+</div>

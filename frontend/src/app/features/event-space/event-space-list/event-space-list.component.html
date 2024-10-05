@@ -1,0 +1,68 @@
+@defer (when !isLoading) {
+    <h1 style="display: flex; justify-content: center; align-items: center;">Espacios de Eventos Disponibles</h1>
+    <div style="display: flex; justify-content: center; align-items: center;">
+        <div class="filters" style="display: flex; flex-direction: column;  width: 10rem;">
+            <mat-label for="type">Tipo de Espacio:</mat-label>
+            <select id="type" [(ngModel)]="selectedType">
+            <option value="">Todos</option>
+            <option *ngFor="let type of types" [value]="type">{{ type }}</option>
+            </select>
+        
+            <mat-label for="capacity">Capacidad:</mat-label>
+            <input id="capacity" type="number" [(ngModel)]="selectedCapacity" placeholder="Capacidad máxima"/>
+            <button mat-raised-button color="primary" (click)="applyFilters()" style="margin-top: 1rem;">Aplicar Filtros</button>
+        </div>
+    </div>
+  
+    <mat-table [dataSource]="eventSpaces" class="mat-elevation-z8" style="margin-top: 2rem;">
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
+        <mat-cell *matCellDef="let eventSpace"> {{eventSpace.name}} </mat-cell>
+      </ng-container>
+  
+      <ng-container matColumnDef="type">
+        <mat-header-cell *matHeaderCellDef> Tipo </mat-header-cell>
+        <mat-cell *matCellDef="let eventSpace"> {{eventSpace.type}} </mat-cell>
+      </ng-container>
+  
+      <ng-container matColumnDef="capacity">
+        <mat-header-cell *matHeaderCellDef> Capacidad </mat-header-cell>
+        <mat-cell *matCellDef="let eventSpace"> {{eventSpace.capacity}} </mat-cell>
+      </ng-container>
+
+
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
+        <mat-cell *matCellDef="let eventSpace">
+          <button mat-button (click)="getEventSpaceById(eventSpace.id)">Ver espacio!</button>
+          <button mat-button (click)="openReservationForm(eventSpace)">Reservar</button> 
+
+          @if(isAdmin) {
+            <button mat-button (click)="openEditEventSpaceModal(eventSpace.id)">Editar</button>
+            <button mat-button color="warn" (click)="deleteEventSpace(eventSpace)">Eliminar</button>
+          }
+        </mat-cell>
+      </ng-container>
+  
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+  }
+  
+  @if (isLoading) {
+    <ngx-skeleton-loader count="7" appearance="line" />
+  }
+  
+  <mat-paginator 
+    [length]="totalEventSpaces" 
+    [pageSize]="pageSize" 
+    [pageSizeOptions]="[5, 10, 20]" 
+    (page)="onPageChange($event)">
+  </mat-paginator>
+  
+  @if(isAdmin) {
+    <button mat-flat-button color="primary" (click)="openCreateEventSpaceModal()" style="margin-top: 1rem; margin-left: 1rem;">
+      Crear Espacio de Evento
+    </button>
+  }
+  
