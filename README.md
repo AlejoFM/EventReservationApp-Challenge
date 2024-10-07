@@ -27,6 +27,7 @@ Its recommended to have Docker and Docker Compose installed on your machine.
         docker-compose exec webserver php artisan jwt:secret; `
         docker-compose exec webserver php artisan config:clear; `
         docker-compose exec webserver php artisan config:cache; `
+        docker-compose exec webserver php artisan l5-swagger:generate; `
         docker-compose exec webserver php artisan migrate:fresh --seed; `
     ```
     For unix based systems : 
@@ -35,8 +36,9 @@ Its recommended to have Docker and Docker Compose installed on your machine.
         docker-compose exec webserver php artisan jwt:secret && \
         docker-compose exec webserver php artisan config:clear && \
         docker-compose exec webserver php artisan config:cache && \
-        docker-compose exec webserver php artisan migrate:fresh --seed && \
-        docker-compose exec webserver php artisan test
+        docker-compose exec webserver php artisan l5-swagger:generate && \
+        docker-compose exec webserver php artisan migrate:fresh --seed 
+        
     ```
 
 4. Enjoy the project!
@@ -51,6 +53,7 @@ If you dont have Docker installed, you can follow the steps below:
 6. Create the JWT secret: **`php artisan jwt:secret`**
 7. Create the config: **`php artisan config:clear`**
 8. Create the cache: **`php artisan config:cache`**
+9. Create the Swagger documentation : **`php artisan l5-swagger:generate`**
 9. Now your backend is ready to use!
 
 For the frontend, follow the steps below:
@@ -70,7 +73,7 @@ To use the Event Reservation App, follow these steps:
 2. You can access the project at **`http://localhost:4200`**
 3. Now, you will have two users ready to use the app:
     - Role : **`admin`**
-    - Username: **`jose@example.com`**
+    - Username: **`juan@example.com`**
     - Password: **`password123`**
 
     - Role : **`user`**
