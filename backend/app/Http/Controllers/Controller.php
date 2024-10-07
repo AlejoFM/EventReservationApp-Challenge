@@ -8,7 +8,7 @@ use Illuminate\Routing\Controller as BaseController;
 
 /**
  * @OA\Info(
- *     title="API de Autenticación",
+ *     title="Event Reservation App",
  *     version="1.0.0"
  * )
  *@OA\SecurityScheme(

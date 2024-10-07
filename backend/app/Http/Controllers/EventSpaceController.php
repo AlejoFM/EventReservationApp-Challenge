@@ -15,7 +15,12 @@ use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-
+/**
+ * @OA\Tag(
+ *     name="Event spaces", 
+ *     description="API relacionada a los espacios de eventos"
+ * )
+ */
 class EventSpaceController extends Controller
 {
     private $eventSpaceService;
@@ -27,6 +32,7 @@ class EventSpaceController extends Controller
      * @OA\Get(
      *     path="/api/event_spaces",
      *     summary="Obtiene una lista de espacios",
+     *     tags={"Event spaces"},
      *     @OA\Response(
      *         response=200,
      *         description="Lista de espacios"
@@ -66,6 +72,7 @@ class EventSpaceController extends Controller
      * @OA\Post(
      *     path="/api/event_spaces",
      *     summary="Crea un nuevo espacio",
+     *      tags={"Event spaces"},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -108,6 +115,7 @@ class EventSpaceController extends Controller
      * @OA\Get(
      *     path="/api/event_spaces/{id}",
      *     summary="Obtiene los detalles de un espacio",
+     *      tags={"Event spaces"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -141,6 +149,7 @@ class EventSpaceController extends Controller
      * @OA\Put(
      *     path="/api/event_spaces/{id}",
      *     summary="Actualiza un espacio existente",
+     *      tags={"Event spaces"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -190,6 +199,7 @@ class EventSpaceController extends Controller
      * @OA\Delete(
      *     path="/api/event_spaces/{id}",
      *     summary="Elimina un espacio",
+     *      tags={"Event spaces"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",

@@ -12,6 +12,12 @@ use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
+/**
+ * @OA\Tag(
+ *     name="Auth", 
+ *     description="API relacionada a la autenticación"
+ * )
+ */
 
 class AuthController extends Controller
 {
@@ -19,6 +25,7 @@ class AuthController extends Controller
      * @OA\Post(
      *     path="/api/register",
      *     summary="Registro de usuario",
+     *      tags={"Authentication"},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -62,6 +69,7 @@ class AuthController extends Controller
      * @OA\Post(
      *     path="/api/login",
      *     summary="Inicio de sesión de usuario",
+     *       tags={"Authentication"},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -111,6 +119,7 @@ class AuthController extends Controller
      * @OA\Get(
      *     path="/api/logout",
      *     summary="Cerrar sesión de usuario",
+     *       tags={"Authentication"},
      *     @OA\Response(
      *         response=200,
      *         description="Cierre de sesión exitoso"

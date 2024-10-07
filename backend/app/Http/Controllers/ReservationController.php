@@ -16,6 +16,13 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
+
+/**
+ * @OA\Tag(
+ *     name="Reservations", 
+ *     description="API relacionada a las reservas"
+ * )
+ */
 class ReservationController extends Controller
 {
     private ReservationService $reservationService; 
@@ -26,6 +33,7 @@ class ReservationController extends Controller
      * @OA\Get(
      *     path="/api/reservations",
      *     summary="Obtiene una lista de reservas del usuario autenticado",
+     *      tags={"Reservations"},
      *     @OA\Response(
      *         response=200,
      *         description="Lista de reservas"
@@ -46,6 +54,7 @@ class ReservationController extends Controller
      * @OA\Post(
      *     path="/api/reservations",
      *     summary="Crea una nueva reserva",
+     *       tags={"Reservations"},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -88,6 +97,7 @@ class ReservationController extends Controller
      * @OA\Get(
      *     path="/api/reservations/{id}",
      *     summary="Obtiene los detalles de una reserva",
+     *       tags={"Reservations"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -121,6 +131,7 @@ class ReservationController extends Controller
      * @OA\Put(
      *     path="/api/reservations/{id}",
      *     summary="Actualiza una reserva existente",
+     *       tags={"Reservations"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -165,6 +176,7 @@ class ReservationController extends Controller
      * @OA\Delete(
      *     path="/api/reservations/{id}",
      *     summary="Elimina una reserva",
+     *       tags={"Reservations"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
