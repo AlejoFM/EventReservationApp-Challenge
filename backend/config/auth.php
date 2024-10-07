@@ -44,6 +44,10 @@ return [
             'driver' => 'jwt',
             'provider' => 'users',
         ],
+        'isAdmin' => [
+            'driver' => 'jwt', 
+            'provider' => 'users', 
+        ],
     ],
 
     /*

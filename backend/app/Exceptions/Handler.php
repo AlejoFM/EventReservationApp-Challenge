@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use App\Http\Response\JsonErrorResponse;
 use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
@@ -62,6 +63,11 @@ class Handler extends ExceptionHandler
             Log::error($e);
                 return (new JsonErrorResponse($e->getMessage(), 400))->send();
             };
+            if ($e instanceof AuthorizationException) {
+                return response()->json([
+                    'error' => 'Access denied. You dont have permission to perform this action.'
+                ], 403);
+            }
             
         return parent::render($request, $e);
     }

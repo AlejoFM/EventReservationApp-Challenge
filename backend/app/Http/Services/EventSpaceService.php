@@ -2,6 +2,7 @@
 
 namespace App\Http\Services;
 
+use App\Exceptions\ResponseValidationException;
 use App\Models\EventSpace;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -34,9 +35,22 @@ class EventSpaceService {
 
         return $query->paginate($size);
     }
-    public function createEventSpace(array $data): EventSpace
+    public function createEventSpace(array $data)   
     {
-        return EventSpace::create($data);
+        try{
+        $overlappingEventSpace = EventSpace::query()
+        ->whereRaw('LOWER(TRIM(name)) = ?', [trim(strtolower($data['name']))])
+        ->where('type', trim($data['type']))
+        ->where('location', trim($data['location']))
+        ->exists();
+        if ($overlappingEventSpace) {
+            throw new ResponseValidationException('This event space already exists.', 409);
+        }
+
+            return EventSpace::create($data);
+        }catch(Exception $e){
+            return $e;
+        }
     }
 
     public function getEventspaceById($id): EventSpace
