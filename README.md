@@ -48,13 +48,13 @@ If you dont have Docker installed, you can follow the steps below:
 1. Clone the repository: **`git clone https://github.com/AlejoFM/project-title.git`**
 2. move to the folder: **`cd EventReservationApp-Challenge/backend`**
 3. Install composer dependencies: **`composer install`**
-4. Create the database: **`php artisan migrate:fresh --seed`**
-5. Create the keys: **`php artisan key:generate`**
-6. Create the JWT secret: **`php artisan jwt:secret`**
-7. Create the config: **`php artisan config:clear`**
-8. Create the cache: **`php artisan config:cache`**
-9. Create the Swagger documentation : **`php artisan l5-swagger:generate`**
-9. Now your backend is ready to use!
+4. Create the keys: **`php artisan key:generate`**
+5. Create the JWT secret: **`php artisan jwt:secret`**
+6. Create the config: **`php artisan config:clear`**
+7. Create the cache: **`php artisan config:cache`**
+8. Create the Swagger documentation : **`php artisan l5-swagger:generate`**
+9. Create the database: **`php artisan migrate:fresh --seed`**
+10. Now your backend is ready to use!
 
 For the frontend, follow the steps below:
 
